@@ -49,7 +49,7 @@ public class CSVData {
 	 * @return an array for the row
 	 */
 	public double[] getRow(int rowNumber) {
-		return null;
+		return data[rowNumber];
 	}
 
 	/**
