@@ -63,7 +63,13 @@ public class CSVData {
 	 * @return the 2d array that represents the rows
 	 */
 	public double[][] getRows(int startRowNumber, int endRowNumber) {
-		return null;
+		double[][] returnValue = new double[endRowNumber - startRowNumber][data[0].length];
+		int returnValueIndex = 0;
+		for (int i = startRowNumber; i < endRowNumber; i++) {
+			returnValue[returnValueIndex] = getRow(i);
+			returnValueIndex++;
+		}
+		return returnValue;
 	}
 
 	/**
