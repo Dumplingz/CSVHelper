@@ -40,6 +40,11 @@ public class CSVData {
 		return null;
 	}
 
+	public CSVData(double[][] data, String[] columnNames) {
+		this.data = data;
+		this.columnNames = columnNames;
+	}
+
 	/**
 	 * Returns an array of doubles representing the row at the specified row
 	 * number.
@@ -80,7 +85,11 @@ public class CSVData {
 	 * @return the 2d array that represents the rows
 	 */
 	public double[][] getRows(int[] rowNumbers) {
-		return null;
+		double[][] returnValue = new double[rowNumbers.length][data[0].length];
+		for (int i = 0; i < rowNumbers.length; i++) {
+			returnValue[i] = getRow(rowNumbers[i]);
+		}
+		return returnValue;
 	}
 
 	/**
@@ -92,7 +101,11 @@ public class CSVData {
 	 * @return an array for the column
 	 */
 	public double[] getColumn(int columnNumber) {
-		return null;
+		double[] returnValue = new double[data.length];
+		for (int i = 0; i < returnValue.length; i++) {
+			returnValue[i] = getValue(i, columnNumber);
+		}
+		return returnValue;
 	}
 
 	/**
@@ -104,6 +117,11 @@ public class CSVData {
 	 * @return an array for the column
 	 */
 	public double[] getColumn(String columnName) {
+		int index = getColumnNumber(columnName);
+
+		if (index != -1) {
+			return getColumn(index);
+		}
 		return null;
 	}
 
@@ -118,6 +136,13 @@ public class CSVData {
 	 * @return the 2d array that represents the columns
 	 */
 	public double[][] getColumns(int startColumnNumber, int endColumnNumber) {
+		double[][] returnValue = new double[data.length][endColumnNumber - startColumnNumber];
+
+		for (int i = 0; i < returnValue.length; i++) {
+			for (int j = startColumnNumber; j < endColumnNumber; j++) {
+				returnValue[i][j] = data[i][j];
+			}
+		}
 		return null;
 	}
 
@@ -129,7 +154,13 @@ public class CSVData {
 	 * @return the 2d array that represents the columns
 	 */
 	public double[][] getColumns(int[] columnNumbers) {
-		return null;
+		double[][] returnValue = new double[data.length][columnNumbers.length];
+		for (int i = 0; i < returnValue.length; i++) {
+			for (int j = 0; j < columnNumbers.length; j++) {
+				returnValue[i][j] = data[i][columnNumbers[j]];
+			}
+		}
+		return returnValue;
 	}
 
 	/**
@@ -141,7 +172,11 @@ public class CSVData {
 	 * @return the 2d array that represents the columns
 	 */
 	public double[][] getColumns(String[] columnNames) {
-		return null;
+		int[] columnNumbers = new int[columnNames.length];
+		for (int i = 0; i < columnNames.length; i++) {
+			columnNumbers[i] = getColumnNumber(columnNames[i]);
+		}
+		return getColumns(columnNumbers);
 	}
 
 	/**
@@ -150,7 +185,7 @@ public class CSVData {
 	 * @return the array with the column names
 	 */
 	public String[] getColumnTitles() {
-		return null;
+		return columnNames;
 	}
 
 	/**
@@ -161,7 +196,7 @@ public class CSVData {
 	 * @return the name of that column
 	 */
 	public String getColumnTitle(int columnNumber) {
-		return null;
+		return columnNames[columnNumber];
 	}
 
 	/**
@@ -171,8 +206,28 @@ public class CSVData {
 	 *            the name of the column
 	 * @return the number of the column with that name
 	 */
-	public String getColumnNumber(String columnTitle) {
-		return null;
+	public int getColumnNumber(String columnTitle) {
+		int index = 0;
+		while (index < columnNames.length && !columnTitle.equals(columnNames[index])) {
+			index++;
+		}
+		if (index >= columnNames.length) {
+			return -1;
+		}
+		return index;
+	}
+
+	/**
+	 * Returns the value at the specified column and row.
+	 * 
+	 * @param rowNumber
+	 *            the row to take the value out of
+	 * @param columnNumber
+	 *            the column to take the value out of
+	 * @return the value
+	 */
+	public double getValue(int rowNumber, int columnNumber) {
+		return data[rowNumber][columnNumber];
 	}
 
 	/**
@@ -187,7 +242,9 @@ public class CSVData {
 	 * @return the replaced number
 	 */
 	public double setValue(double newValue, int rowNumber, int columnNumber) {
-		return 0;
+		double prevValue = getValue(rowNumber, columnNumber);
+		data[rowNumber][columnNumber] = newValue;
+		return prevValue;
 	}
 
 	/**
