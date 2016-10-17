@@ -68,11 +68,15 @@ public class CSVData {
 	}
 
 	/**
-	 * creates a 2d array list for the 
+	 * Creates a 2d array with all of the data put into it
+	 * 
 	 * @param lines
+	 *            the lines containing the data to put into the new 2d array
 	 * @param startRow
+	 *            the number of lines at the top to ignore
 	 * @param numColumns
-	 * @return
+	 *            the number of columns to convert
+	 * @return the 2d array containing the data in String[] lines
 	 */
 	private double[][] createData(String[] lines, int startRow, int numColumns) {
 		int n = lines.length - startRow;
@@ -91,6 +95,13 @@ public class CSVData {
 		return data;
 	}
 
+	/**
+	 * Return a file converted into a string
+	 * 
+	 * @param filepath
+	 *            the file to read
+	 * @return a string with the file's contents
+	 */
 	private String readFileAsString(String filepath) {
 		StringBuilder output = new StringBuilder();
 		try (Scanner scanner = new Scanner(new File(filepath))) {
