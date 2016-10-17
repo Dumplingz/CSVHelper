@@ -15,22 +15,69 @@ public class CSVData {
 	String filePathToCSV;
 	int numRows;
 
-	public CSVData(String filepath, String[] columnNames, int startRow) {
+	/**
+	 * The constructor for making a new CSVData object
+	 * 
+	 * @param filepath
+	 *            the file to read
+	 * @param startRow
+	 *            the number of lines at the top to ignore
+	 */
+	private CSVData(String filepath, int startRow) {
+		this.filePathToCSV = filepath;
+		String dataString = readFileAsString(filepath);
+		String[] lines = dataString.split("\n");
+
+		// create the column names from the first line
+		columnNames = lines[0].split(",");
+
+		// number of data points
+		this.numRows = lines.length - startRow;
+		int numColumns = columnNames.length;
+
+		// create storage for data
+		this.data = createData(lines, startRow, numColumns);
+	}
+
+	/**
+	 * The constructor for making a new CSVData object
+	 * 
+	 * @param filepath
+	 *            the file to read
+	 * @param columnNames
+	 *            the names of each column
+	 * @param startRow
+	 *            the number of lines at the top to ignore
+	 */
+	private CSVData(String filepath, String[] columnNames, int startRow) {
 		this.filePathToCSV = filepath;
 
 		String dataString = readFileAsString(filepath);
 		String[] lines = dataString.split("\n");
 
 		// number of data points
-		int n = lines.length - startRow;
-		this.numRows = n;
+		this.numRows = lines.length - startRow;
 		int numColumns = columnNames.length;
 
 		// create storage for column names
 		this.columnNames = columnNames;
 
 		// create storage for data
-		this.data = new double[n][numColumns];
+		this.data = createData(lines, startRow, numColumns);
+
+	}
+
+	/**
+	 * creates a 2d array list for the 
+	 * @param lines
+	 * @param startRow
+	 * @param numColumns
+	 * @return
+	 */
+	private double[][] createData(String[] lines, int startRow, int numColumns) {
+		int n = lines.length - startRow;
+
+		double[][] data = new double[n][numColumns];
 		for (int i = 0; i < lines.length - startRow; i++) {
 			String line = lines[startRow + i];
 			String[] coords = line.split(",");
@@ -41,6 +88,7 @@ public class CSVData {
 				data[i][j] = val;
 			}
 		}
+		return data;
 	}
 
 	private String readFileAsString(String filepath) {
@@ -60,16 +108,16 @@ public class CSVData {
 	 * Returns a new CSVData object for a file ignoring lines at the top. All
 	 * data is stored as doubles.
 	 * 
-	 * @param filename
+	 * @param filepath
 	 *            the file to read
-	 * @param numLinesToIgnore
-	 *            number of lines at the top to ignore
 	 * @param columnNames
 	 *            the names of each column
+	 * @param startRow
+	 *            number of lines at the top to ignore
 	 * @return a CSVData object for that file
 	 */
-	public static CSVData readCSVFile(String filename, int numLinesToIgnore, String[] columnNames) {
-		return null;
+	public static CSVData readCSVFile(String filepath, String[] columnNames, int startRow) {
+		return new CSVData(filepath, columnNames, startRow);
 	}
 
 	/**
@@ -77,14 +125,14 @@ public class CSVData {
 	 * uses the first row as the column names. All other data is stored as
 	 * doubles.
 	 * 
-	 * @param filename
+	 * @param filepath
 	 *            the file to read
-	 * @param numLinesToIgnore
+	 * @param startRow
 	 *            number of lines at the top to ignore
 	 * @return a CSVData object for that file.
 	 */
-	public static CSVData readCSVFile(String filename, int numLinesToIgnore) {
-		return null;
+	public static CSVData readCSVFile(String filepath, int startRow) {
+		return new CSVData(filepath, startRow);
 	}
 
 	/**
