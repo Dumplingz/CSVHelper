@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -352,6 +353,15 @@ public class CSVData {
 		return prevValue;
 	}
 
+	public String toString() {
+		String returnString = "";
+		for (int i = 0; i < data.length; i++) {
+			returnString += (Arrays.toString(data[i]) + System.getProperty("line.separator"));
+		}
+
+		return returnString;
+	}
+
 	/**
 	 * Saves the data in the CSVData in a file.
 	 * 
@@ -359,7 +369,7 @@ public class CSVData {
 	 *            the name of the file
 	 */
 	public void saveData(String filename) {
-
+		FileIO.writeDataToFile(filename, toString());
 	}
 
 }
