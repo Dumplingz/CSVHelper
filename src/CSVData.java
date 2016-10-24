@@ -243,6 +243,7 @@ public class CSVData {
 			int returnIndex = 0;
 			for (int j = startColumnNumber; j < endColumnNumber; j++) {
 				returnValue[i][returnIndex] = data[i][j];
+				returnIndex++;
 			}
 		}
 		return null;
@@ -258,8 +259,10 @@ public class CSVData {
 	public double[][] getColumns(int[] columnNumbers) {
 		double[][] returnValue = new double[data.length][columnNumbers.length];
 		for (int i = 0; i < returnValue.length; i++) {
+			int returnIndex = 0;
 			for (int j = 0; j < columnNumbers.length; j++) {
-				returnValue[i][j] = data[i][columnNumbers[j]];
+				returnValue[i][returnIndex] = data[i][columnNumbers[j]];
+				returnIndex++;
 			}
 		}
 		return returnValue;
