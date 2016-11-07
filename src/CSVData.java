@@ -27,7 +27,7 @@ public class CSVData {
 	private CSVData(String filepath, int startRow) {
 		this.filePathToCSV = filepath;
 		String dataString = readFileAsString(filepath);
-		String[] lines = dataString.split("\n");
+		String[] lines = dataString.split(System.getProperty("line.separator"));
 
 		// create the column names from the first line
 		columnNames = lines[0].split(",");
@@ -54,7 +54,7 @@ public class CSVData {
 		this.filePathToCSV = filepath;
 
 		String dataString = readFileAsString(filepath);
-		String[] lines = dataString.split("\n");
+		String[] lines = dataString.split(System.getProperty("line.separator"));
 
 		// number of data points
 		this.numRows = lines.length - startRow;
